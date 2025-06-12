@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+html,
+body {
+  @apply m-0 p-0 box-border text-black bg-gray-100 dark:bg-gray-900;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
