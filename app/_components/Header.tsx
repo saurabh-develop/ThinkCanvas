@@ -6,6 +6,9 @@ import { HiOutlineDotsCircleHorizontal } from "react-icons/hi";
 import { FiCode } from "react-icons/fi";
 import { BsChevronDown } from "react-icons/bs";
 import Image from "next/image";
+import { LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { Button } from "@/components/ui/button";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface HeaderProps {
   theme: string;
@@ -14,6 +17,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user } = useKindeBrowserClient();
 
   useEffect(() => {
     const savedTheme =
@@ -64,20 +68,30 @@ const Header: React.FC<HeaderProps> = ({ theme, setTheme }) => {
       <div className="flex items-center gap-4">
         <button
           onClick={toggleTheme}
-          className="text-xl text-black dark:text-white"
+          className="text-xl text-black dark:text-white cursor-pointer"
         >
           {theme === "dark" ? <FaSun /> : <FaMoon />}
         </button>
 
-        <div className="text-black dark:text-white font-bold text-sm text-right leading-4">
-          LOG IN
-        </div>
+        {!user && (
+          <div className="text-white font-bold text-sm text-right leading-4">
+            <LoginLink>
+              <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                Login
+              </Button>
+            </LoginLink>
+          </div>
+        )}
 
-        <img
-          src="https://i.pravatar.cc/40"
-          alt="avatar"
-          className="rounded-full w-10 h-10"
-        />
+        {user?.picture && (
+          <Image
+            src={user.picture}
+            alt="avatar"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+        )}
         {/* Hamburger (Mobile only) */}
         <button
           className="md:hidden text-black dark:text-white text-2xl"
