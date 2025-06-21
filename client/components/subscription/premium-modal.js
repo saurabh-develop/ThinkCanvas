@@ -161,9 +161,8 @@ function SubscriptionModal({ isOpen, onClose }) {
 
           {/* Illustration */}
           <div className="hidden md:block md:w-[450px] relative">
-            <div className="absolute inset-0 bg-black/40 z-10 rounded-r-xl" />
+            <div className="absolute inset-0 z-10 rounded-r-xl" />
             <img
-              src="https://media-hosting.imagekit.io/646b543ce33543f9/78697aa1-1660-42f3-9399-2b85512e9582.webp"
               alt="Premium Illustration"
               className="w-full h-full object-cover rounded-r-xl"
             />
