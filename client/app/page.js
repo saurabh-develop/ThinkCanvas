@@ -10,7 +10,6 @@ import SideBar from "@/components/home/sidebar";
 import { useEffect } from "react";
 
 export default function Home() {
-
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-[#1e1e2f] via-[#2c2c3e] to-[#1e1e2f] text-white">
       <SideBar />

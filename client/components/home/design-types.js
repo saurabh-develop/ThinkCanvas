@@ -3,7 +3,6 @@
 import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-// import { toast } from "sonner";
 
 function DesignTypes() {
   return (

@@ -1,4 +1,5 @@
 "use client";
+
 import { CreditCard, FolderOpen, Home, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -6,7 +7,6 @@ function SideBar() {
   return (
     <aside className="w-[72px] backdrop-blur-md bg-white/10 border-r border-white/10 flex flex-col items-center py-4 fixed left-0 top-0 h-full z-20 text-white">
       <div
-        // onClick={handleCreateNewDesign}
         className="flex flex-col items-center"
       >
         <button className="w-12 h-12 bg-[#8b3dff] rounded-full flex items-center justify-center text-white hover:bg-[#a564ff] transition-colors">
