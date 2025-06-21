@@ -1,12 +1,40 @@
 "use client";
 
+import { saveDesign } from "@/services/design-service";
+import { useEditorStore } from "@/store";
 import { CreditCard, FolderOpen, Home, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 function SideBar() {
+  const router = useRouter();
+  const { setShowPremiumModal, setShowDesignsModal } = useEditorStore();
+
+  const handleCreateNewDesign = async () => {
+    try {
+      const initialDesignData = {
+        name: "Untitled design - Youtube Thumbnail",
+        canvasData: null,
+        width: 825,
+        height: 465,
+        category: "youtube_thumbnail",
+      };
+
+      const newDesign = await saveDesign(initialDesignData);
+
+      if (newDesign?.success) {
+        router.push(`/editor/${newDesign?.data?._id}`);
+      } else {
+        throw new Error("Failed to create new design");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <aside className="w-[72px] backdrop-blur-md bg-white/10 border-r border-white/10 flex flex-col items-center py-4 fixed left-0 top-0 h-full z-20 text-white">
       <div
+        onClick={handleCreateNewDesign}
         className="flex flex-col items-center"
       >
         <button className="w-12 h-12 bg-[#8b3dff] rounded-full flex items-center justify-center text-white hover:bg-[#a564ff] transition-colors">
