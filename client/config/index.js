@@ -1,4 +1,4 @@
-const {
+import {
   Youtube,
   Image,
   Palette,
@@ -9,8 +9,9 @@ const {
   Sparkles,
   Wand2,
   Upload,
-} = require("lucide-react");
+} from "lucide-react";
 
+// 🎨 Canvas Design Types
 export const designTypes = [
   {
     icon: <Youtube className="h-6 w-6 text-white" />,
@@ -82,6 +83,7 @@ export const designTypes = [
   },
 ];
 
+// 🎨 General Color Presets
 export const colorPresets = [
   "#FFFFFF",
   "#F8F9FA",
@@ -115,38 +117,40 @@ export const colorPresets = [
   "#F0F4C3",
 ];
 
+// ✍️ Text Presets
 export const textPresets = [
   {
     name: "Heading",
     text: "Add a heading",
     fontSize: 36,
     fontWeight: "bold",
-    fontFamily: "Inter, sans-serid",
+    fontFamily: "Inter, sans-serif",
   },
   {
     name: "Subheading",
     text: "Add a subheading",
     fontSize: 24,
     fontWeight: "bold",
-    fontFamily: "Inter, sans-serid",
+    fontFamily: "Inter, sans-serif",
   },
   {
     name: "Body Text",
     text: "Add a little bit of body text",
     fontSize: 16,
     fontWeight: "normal",
-    fontFamily: "Inter, sans-serid",
+    fontFamily: "Inter, sans-serif",
   },
   {
     name: "Caption",
     text: "Add a caption",
     fontSize: 12,
     fontWeight: "normal",
-    fontFamily: "Inter, sans-serid",
     fontStyle: "normal",
+    fontFamily: "Inter, sans-serif",
   },
 ];
 
+// 🖌️ Brush Sizes
 export const brushSizes = [
   { value: 2, label: "Small" },
   { value: 5, label: "Medium" },
@@ -154,6 +158,7 @@ export const brushSizes = [
   { value: 20, label: "Extra Large" },
 ];
 
+// 🎨 Drawing Panel Colors
 export const drawingPanelColorPresets = [
   "#000000",
   "#FFFFFF",
@@ -170,13 +175,13 @@ export const drawingPanelColorPresets = [
   "#FF00FF",
   "#00FFFF",
   "#FFFF00",
-  // Muted colors
+  // Muted tones
   "#6B705C",
   "#A5A58D",
   "#B7B7A4",
   "#CB997E",
   "#DDBEA9",
-  // Dark colors
+  // Dark tones
   "#1A1A2E",
   "#16213E",
   "#0F3460",
@@ -184,6 +189,7 @@ export const drawingPanelColorPresets = [
   "#E94560",
 ];
 
+// 🅰️ Font Families
 export const fontFamilies = [
   "Arial",
   "Helvetica",

@@ -163,6 +163,7 @@ function SubscriptionModal({ isOpen, onClose }) {
           <div className="hidden md:block md:w-[450px] relative">
             <div className="absolute inset-0 z-10 rounded-r-xl" />
             <img
+              src="/subscription.png"
               alt="Premium Illustration"
               className="w-full h-full object-cover rounded-r-xl"
             />

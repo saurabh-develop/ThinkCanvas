@@ -1,24 +1,23 @@
-import * as React from "react"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-import { cn } from "@/lib/utils"
-
-function Input({
-  className,
-  type,
-  ...props
-}) {
+function Input({ className, type = "text", ...props }) {
   return (
     <input
       type={type}
       data-slot="input"
       className={cn(
-        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        "w-full h-10 px-3 py-1.5 rounded-md border bg-[#1e1e2f]/60 text-white placeholder:text-white/40 text-sm shadow-sm",
+        "backdrop-blur-md border-white/10 transition-all duration-200",
+        "focus-visible:ring-2 focus-visible:ring-purple-500/60 focus-visible:border-purple-500/60 outline-none",
+        "disabled:opacity-50 disabled:cursor-not-allowed",
+        "file:bg-transparent file:border-0 file:text-sm file:font-medium file:text-white/70 file:h-7 file:ml-2",
+        "aria-invalid:border-red-500 aria-invalid:ring-red-500/20",
         className
       )}
-      {...props} />
+      {...props}
+    />
   );
 }
 
-export { Input }
+export { Input };
