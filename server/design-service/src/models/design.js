@@ -18,4 +18,5 @@ const DesignSchema = new mongoose.Schema({
 });
 
 const Design = mongoose.models.Design || mongoose.model("Design", DesignSchema);
-module.exports = Design;
+
+export default Design;

@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
-import designRoutes from "./routes/design-routes";
+import designRoutes from "./routes/design-routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5001;

@@ -1,6 +1,6 @@
-import Design from "../models/design";
+import Design from "../models/design.js";
 
-exports.getUserDesigns = async (req, res) => {
+const getUserDesigns = async (req, res) => {
   try {
     const userId = req.user.userId;
 
@@ -19,7 +19,7 @@ exports.getUserDesigns = async (req, res) => {
   }
 };
 
-exports.getUserDesignsByID = async (req, res) => {
+const getUserDesignsByID = async (req, res) => {
   try {
     const userId = req.user.userId;
     const designId = req.params.id;
@@ -46,7 +46,7 @@ exports.getUserDesignsByID = async (req, res) => {
   }
 };
 
-exports.saveDesign = async (req, res) => {
+const saveDesign = async (req, res) => {
   try {
     const userId = req.user.userId;
     const { designId, name, canvasData, width, height, category } = req.body;
@@ -97,7 +97,7 @@ exports.saveDesign = async (req, res) => {
   }
 };
 
-exports.deleteDesign = async (req, res) => {
+const deleteDesign = async (req, res) => {
   try {
     const userId = req.user.userId;
     const designId = req.params.id;
@@ -124,3 +124,5 @@ exports.deleteDesign = async (req, res) => {
     });
   }
 };
+
+export { getUserDesigns, getUserDesignsByID, saveDesign, deleteDesign };

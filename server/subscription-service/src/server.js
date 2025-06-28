@@ -3,7 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import helmet from "helmet";
-// import subscriptionRoutes from "./routes/subscription-routes";
+import subscriptionRoutes from "./routes/subscription-routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5003;
@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/api/subscription", subscriptionRoutes);
+app.use("/api/subscription", subscriptionRoutes);
 
 async function startServer() {
   try {
