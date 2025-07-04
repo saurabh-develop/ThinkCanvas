@@ -15,16 +15,20 @@ function DesignTypes() {
   const [loading, setLoading] = useState(false);
 
   const handleCreateNewDesign = async (getCurrentType, index) => {
+    if (loading) return;
+
+    setLoading(true);
     setCurrentSelectedType(index);
+
     if (userDesigns?.length >= 5 && !userSubscription.isPremium) {
       toast.error("Please upgrade to premium!", {
         description: "You need to upgrade to premium to create more designs",
       });
+      setLoading(false);
       return;
     }
-    if (loading) return;
+
     try {
-      setLoading(true);
       const initialDesignData = {
         name: getCurrentType.label,
         canvasData: null,
@@ -35,12 +39,13 @@ function DesignTypes() {
       const newDesign = await saveDesign(initialDesignData);
       if (newDesign?.success) {
         router.push(`/editor/${newDesign?.data?._id}`);
-        setLoading(false);
       } else {
         throw new Error("Failed to create new design");
       }
     } catch (e) {
       console.log(e);
+      toast.error("Something went wrong while creating the design.");
+    } finally {
       setLoading(false);
     }
   };

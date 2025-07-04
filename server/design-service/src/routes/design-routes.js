@@ -1,14 +1,19 @@
 import express from "express";
-import designController from "../controllers/design-controller.js";
+import {
+  getUserDesigns,
+  getUserDesignsByID,
+  saveDesign,
+  deleteDesign,
+} from "../controllers/design-controllers.js";
 import authenticatedRequest from "../middleware/auth-middleware.js";
 
 const router = express.Router();
 
 router.use(authenticatedRequest);
 
-router.get("/", designController.getUserDesigns);
-router.get("/:id", designController.getUserDesignsByID);
-router.post("/", designController.saveDesign);
-router.delete("/:id", designController.deleteDesign);
+router.get("/", getUserDesigns);
+router.get("/:id", getUserDesignsByID);
+router.post("/", saveDesign);
+router.delete("/:id", deleteDesign);
 
 export default router;

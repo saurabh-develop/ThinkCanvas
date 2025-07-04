@@ -13,10 +13,29 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//proxy options
+// ✅ Properly define the proxyOptions object
 const proxyOptions = {
   proxyReqPathResolver: (req) => {
-    return req.originalUrl.replace(/^\/v1/, "/api");
+    const resolved = req.originalUrl.replace(/^\/v1/, "/api");
+
+    // Debug output
+    console.log("[Gateway] Resolving path:", req.originalUrl, "→", resolved);
+
+    // Catch malformed paths
+    if (resolved.includes("/:") || resolved.match(/\/:($|[^a-zA-Z])/)) {
+      throw new Error(`Invalid path: ${resolved}`);
+    }
+
+    return resolved;
+  },
+  userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+    return {
+      ...headers,
+      "Access-Control-Allow-Origin":
+        process.env.FRONTEND_URL || "http://localhost:3000",
+      "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    };
   },
   proxyErrorHandler: (err, res, next) => {
     res.status(500).json({
@@ -26,13 +45,8 @@ const proxyOptions = {
   },
 };
 
-app.use(
-  "/v1/designs",
-  authMiddleware,
-  proxy(process.env.DESIGN, {
-    ...proxyOptions,
-  })
-);
+// ✅ Routes using the above proxy options
+app.use("/v1/designs", authMiddleware, proxy(process.env.DESIGN, proxyOptions));
 
 app.use(
   "/v1/media/upload",
@@ -55,9 +69,7 @@ app.use(
 app.use(
   "/v1/subscription",
   authMiddleware,
-  proxy(process.env.SUBSCRIPTION, {
-    ...proxyOptions,
-  })
+  proxy(process.env.SUBSCRIPTION, proxyOptions)
 );
 
 app.listen(PORT, () => {

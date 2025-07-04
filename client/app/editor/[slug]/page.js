@@ -22,8 +22,18 @@ export default function EditorPage() {
   }
 
   useEffect(() => {
-    fetchUserSubscription();
-    fetchUserDesigns();
+    const fetchData = async () => {
+      const [subscriptionRes, designsRes] = await Promise.all([
+        getUserSubscription(),
+        getUserDesigns(),
+      ]);
+
+      if (subscriptionRes.success) setUserSubscription(subscriptionRes.data);
+      if (designsRes.success) setUserDesigns(designsRes.data);
+    };
+
+    fetchData();
   }, []);
+
   return <MainEditor />;
 }

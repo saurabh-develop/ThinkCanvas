@@ -5,9 +5,9 @@ import { useEditorStore } from "@/store";
 import { useEffect, useRef } from "react";
 
 function Canvas() {
-  const canvasRef = useRef < HTMLCanvasElement > null;
-  const canvasContainerRef = useRef < HTMLDivElement > null;
-  const fabricCanvasRef = useRef < any > null;
+  const canvasRef = useRef(null);
+  const canvasContainerRef = useRef(null);
+  const fabricCanvasRef = useRef(null);
   const initAttemptedRef = useRef(false);
 
   const { setCanvas, markAsModified } = useEditorStore();

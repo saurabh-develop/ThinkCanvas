@@ -24,6 +24,7 @@ function TextPanel() {
       <Button
         onClick={handleAddCustomTextBox}
         className="w-full py-3 px-4 bg-[#8b3dff] hover:bg-[#9c50ff] text-white rounded-md flex items-center justify-center transition-all"
+        aria-label="Add a custom text box"
       >
         <Type className="mr-2 h-5 w-5" />
         <span className="font-medium">Add a Text Box</span>
@@ -39,12 +40,17 @@ function TextPanel() {
               key={index}
               onClick={() => handleAddPresetText(preset)}
               className="w-full text-left p-3 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+              aria-label={`Add preset: ${preset.text}`}
               style={{
-                fontSize: `${Math.min(preset.fontSize / 1.8, 24)}px`,
+                fontSize: `${Math.min(preset.fontSize / 1.6, 28)}px`,
                 fontWeight: preset.fontWeight,
                 fontStyle: preset.fontStyle || "normal",
                 fontFamily: preset.fontFamily,
-                color: "white",
+                color: preset.fill || "white",
+                lineHeight: 1.2,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >
               {preset.text}

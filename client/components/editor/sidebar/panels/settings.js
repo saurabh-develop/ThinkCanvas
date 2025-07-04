@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -12,12 +13,16 @@ import {
 import { colorPresets } from "@/config";
 import { centerCanvas } from "@/fabric/fabric-utils";
 import { useEditorStore } from "@/store";
-import { Check, Palette } from "lucide-react";
-import { useState } from "react";
+import { Check, Palette, RotateCcw } from "lucide-react";
 
 function SettingsPanel() {
   const [backgroundColor, setBackgroundColor] = useState("#ffffff");
   const { canvas, markAsModified } = useEditorStore();
+
+  useEffect(() => {
+    const savedColor = localStorage.getItem("backgroundColor");
+    if (savedColor) setBackgroundColor(savedColor);
+  }, []);
 
   const handleColorChange = (event) => {
     setBackgroundColor(event.target.value);
@@ -33,7 +38,14 @@ function SettingsPanel() {
     canvas.renderAll();
     centerCanvas(canvas);
     markAsModified();
+    localStorage.setItem("backgroundColor", backgroundColor);
   };
+
+  const handleResetToDefault = () => {
+    setBackgroundColor("#ffffff");
+  };
+
+  const isDisabled = !canvas || backgroundColor === canvas?.backgroundColor;
 
   return (
     <div className="p-4 space-y-6 rounded-2xl bg-[#1e1e2f]/80 backdrop-blur-xl border border-white/10 shadow-xl text-white">
@@ -88,12 +100,24 @@ function SettingsPanel() {
 
         <Separator className="my-4 bg-white/10" />
 
-        <Button
-          onClick={handleApplyChanges}
-          className="w-full bg-[#8b3dff] hover:bg-[#9b50ff] text-white"
-        >
-          Apply Changes
-        </Button>
+        <div className="flex flex-col gap-2">
+          <Button
+            disabled={isDisabled}
+            onClick={handleApplyChanges}
+            className="w-full bg-[#8b3dff] hover:bg-[#9b50ff] text-white disabled:opacity-50"
+          >
+            Apply Changes
+          </Button>
+
+          <Button
+            onClick={handleResetToDefault}
+            variant="outline"
+            className="w-full flex items-center justify-center gap-2 text-white/70 hover:bg-white/10"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Reset to Default
+          </Button>
+        </div>
       </div>
     </div>
   );

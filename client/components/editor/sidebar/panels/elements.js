@@ -6,13 +6,21 @@ import {
   shapeTypes,
 } from "@/fabric/shapes/shape-definitions";
 import { useEditorStore } from "@/store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 function ElementsPanel() {
   const { canvas } = useEditorStore();
   const miniCanvasRef = useRef({});
   const canvasElementRef = useRef({});
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // ✅ Generate stable canvas IDs once
+  const canvasIds = useMemo(() => {
+    return shapeTypes.reduce((acc, type) => {
+      acc[type] = `mini-canvas-${type}-${Math.random().toString(36).slice(2)}`;
+      return acc;
+    }, {});
+  }, []);
 
   useEffect(() => {
     if (isInitialized) return;
@@ -25,12 +33,11 @@ function ElementsPanel() {
           const canvasElement = canvasElementRef.current[shapeType];
           if (!canvasElement) continue;
 
-          const canvasId = `mini-canvas-${shapeType}-${Date.now()}`;
-          canvasElement.id = canvasId;
+          canvasElement.id = canvasIds[shapeType];
 
           const definition = shapeDefinitions[shapeType];
 
-          const miniCanvas = new fabric.StaticCanvas(canvasId, {
+          const miniCanvas = new fabric.StaticCanvas(canvasIds[shapeType], {
             width: 100,
             height: 100,
             backgroundColor: "transparent",
@@ -49,7 +56,7 @@ function ElementsPanel() {
     }, 100);
 
     return () => clearTimeout(timer);
-  }, [isInitialized]);
+  }, [isInitialized, canvasIds]);
 
   useEffect(() => {
     return () => {
@@ -75,6 +82,7 @@ function ElementsPanel() {
   };
 
   const handleShapeClick = (type) => {
+    if (!canvas) return;
     addShapeToCanvas(canvas, type);
   };
 
@@ -94,7 +102,10 @@ function ElementsPanel() {
               ref={(el) => setCanvasRef(el, shapeType)}
               className="rounded"
             />
-            <span className="mt-2 text-xs text-white/60 capitalize">
+            <span
+              className="mt-2 text-xs text-white/60 capitalize"
+              title={shapeType.replace("-", " ")}
+            >
               {shapeType.replace("-", " ")}
             </span>
           </div>

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 function DesignPreview({ design }) {
-  const [canvasId] = useState(`canvas-${design._id}-${Date.now()}`);
+  const canvasId = useMemo(() => `canvas-${design._id}`, [design._id]);
   const fabricCanvasRef = useRef(null);
 
   useEffect(() => {
@@ -13,12 +13,8 @@ function DesignPreview({ design }) {
           fabricCanvasRef.current &&
           typeof fabricCanvasRef.current.dispose === "function"
         ) {
-          try {
-            fabricCanvasRef.current.dispose();
-            fabricCanvasRef.current = null;
-          } catch (e) {
-            console.error("Error while disposing canvas");
-          }
+          fabricCanvasRef.current.dispose();
+          fabricCanvasRef.current = null;
         }
 
         const fabric = await import("fabric");
@@ -26,46 +22,48 @@ function DesignPreview({ design }) {
         if (!canvasElement) return;
 
         const designPreviewCanvas = new fabric.StaticCanvas(canvasId, {
-          width: 300,
-          height: 300,
           renderOnAddRemove: true,
         });
+
+        // Set dimensions explicitly
+        designPreviewCanvas.setWidth(300);
+        designPreviewCanvas.setHeight(300);
 
         fabricCanvasRef.current = designPreviewCanvas;
 
         let canvasData;
-
         try {
           canvasData =
             typeof design.canvasData === "string"
               ? JSON.parse(design.canvasData)
               : design.canvasData;
-        } catch (innerErr) {
+        } catch {
           console.error("Error parsing canvas data");
           return;
         }
 
         if (
-          canvasData === undefined ||
-          canvasData === null ||
-          canvasData?.objects?.length === 0
+          !canvasData ||
+          !canvasData.objects ||
+          canvasData.objects.length === 0
         ) {
-          // fallback styling if there's no content
-          designPreviewCanvas.backgroundColor = "#1e1e2f";
-          designPreviewCanvas.requestRenderAll();
+          designPreviewCanvas.setBackgroundColor("#1e1e2f", () =>
+            designPreviewCanvas.renderAll()
+          );
           return;
         }
 
         if (canvasData.background) {
-          designPreviewCanvas.backgroundColor = canvasData.background;
-          designPreviewCanvas.requestRenderAll();
+          designPreviewCanvas.setBackgroundColor(canvasData.background, () =>
+            designPreviewCanvas.renderAll()
+          );
         }
 
         designPreviewCanvas.loadFromJSON(canvasData, () => {
-          designPreviewCanvas.requestRenderAll();
+          designPreviewCanvas.renderAll();
         });
       } catch (e) {
-        console.error("Error rendering design preview data");
+        console.error("Error rendering design preview data", e);
       }
     }, 100);
 
@@ -83,7 +81,7 @@ function DesignPreview({ design }) {
         }
       }
     };
-  }, [design?._id, canvasId]);
+  }, [canvasId, design._id, design.canvasData]);
 
   return (
     <div

@@ -10,8 +10,7 @@ import Link from "next/link";
 function SubscriptionSuccess() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [status, setStatus] =
-    (useState < "processing") | "success" | ("error" > "processing");
+  const [status, setStatus] = useState("processing");
 
   useEffect(() => {
     const orderId = searchParams.get("token");

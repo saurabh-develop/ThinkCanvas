@@ -88,7 +88,7 @@ function Header() {
           />
         </Link>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild="true">
+          <DropdownMenuTrigger asChild>
             <button className="header-button flex items-center text-white">
               <span>{isEditing ? "Editing" : "Viewing"}</span>
               <ChevronDown className="ml-1 h-4 w-4" />
@@ -155,7 +155,7 @@ function Header() {
           </span>
         </button>
         <DropdownMenu>
-          <DropdownMenuTrigger aschild="true">
+          <DropdownMenuTrigger asChild>
             <div className="flex items-center space-x-2 ">
               <Avatar>
                 <AvatarFallback>
